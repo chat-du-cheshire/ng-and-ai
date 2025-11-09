@@ -1,21 +1,21 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import {HashbrownOpenAI} from '@hashbrownai/openai';
+import { HashbrownOpenAI } from '@hashbrownai/openai';
 
-dotenv.config()
+dotenv.config();
 
 const app = express();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 const PORT = process.env['PORT'] || 3000;
 
 app.post('/chat', async (req, resp) => {
     const stream = HashbrownOpenAI.stream.text({
         apiKey: process.env['OPEN_AI_KEY']!,
-        request: req.body
+        request: req.body,
     });
 
     resp.header('Content-Type', 'application/octet-stream');
@@ -25,8 +25,8 @@ app.post('/chat', async (req, resp) => {
     }
 
     resp.end();
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-})
+});
