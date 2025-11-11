@@ -1,3 +1,47 @@
 :host {
     display: block;
 }
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--mat-sys-surface-container-high);
+    border-radius: 12px;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.03),
+        transparent
+    );
+    box-sizing: border-box;
+}
+
+.chat-input {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 12px;
+    background-color: var(--mat-sys-surface-container);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    border: 1px solid var(--mat-sys-outline-variant);
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.02),
+        transparent
+    );
+    width: 100%;
+    box-sizing: border-box;
+
+    mat-form-field {
+        width: 100%;
+        margin-bottom: -1.25em;
+        font-size: 14px;
+    }
+}
