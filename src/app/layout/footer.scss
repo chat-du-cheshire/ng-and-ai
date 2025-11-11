@@ -1,0 +1,21 @@
+:host {
+    display: block;
+}
+
+.footer {
+    padding: 20px 0;
+    background-color: var(--mat-sys-surface);
+    width: 100%;
+}
+
+.footer-content {
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.9rem;
+}
+
+.author {
+    font-family: 'Rock Salt', cursive;
+    font-size: 18px;
+    color: var(--mat-sys-on-surface);
+}
