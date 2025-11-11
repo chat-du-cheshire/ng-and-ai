@@ -6,6 +6,7 @@
     "start": "npm-run-all --parallel start:frontend start:server",
     "start:frontend": "ng serve",
     "start:server": "ts-node server/server.mts",
+    "start:db": "json-server db/db.json --port 3030",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
