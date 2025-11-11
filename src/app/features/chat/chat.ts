@@ -5,6 +5,7 @@ import { MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatFabButton } from '@angular/material/button';
 import { chatResource } from '@hashbrownai/angular';
+import { MatCard, MatCardContent } from '@angular/material/card';
 
 @Component({
     selector: 'app-chat',
@@ -15,6 +16,8 @@ import { chatResource } from '@hashbrownai/angular';
         MatFabButton,
         MatIcon,
         MatLabel,
+        MatCard,
+        MatCardContent,
     ],
     template: `
         <div class="chat-container">
@@ -37,6 +40,36 @@ import { chatResource } from '@hashbrownai/angular';
                 >
                     <mat-icon>send</mat-icon>
                 </button>
+            </div>
+
+            <div class="chat-messages">
+                @for (message of chat.value(); track $index) {
+                    @switch (message.role) {
+                        @case ('user') {
+                            <mat-card class="message user">
+                                <mat-card-content>
+                                    <p>{{ message.content }}</p>
+                                </mat-card-content>
+                            </mat-card>
+                        }
+                        @case ('assistant') {
+                            <div class="assistant-message-container">
+                                <div class="assistant-avatar">
+                                    <mat-icon
+                                        aria-hidden="false"
+                                        aria-label="Assistant avatar"
+                                        fontIcon="face_2"
+                                    ></mat-icon>
+                                </div>
+                                <mat-card class="message assistant">
+                                    <mat-card-content>
+                                        <p>{{ message.content }}</p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        }
+                    }
+                }
             </div>
         </div>
     `,
