@@ -88,6 +88,7 @@ export class Chat {
 
   chat = chatResource({
     model: 'gpt-4o',
+    debugName: 'chat',
     system: `You are a friendly sarcastic chat bot`,
     tools: [
       createTool({
