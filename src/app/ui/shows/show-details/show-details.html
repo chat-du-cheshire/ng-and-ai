@@ -1,0 +1,33 @@
+<mat-card class="show-card">
+  <img
+    [src]="show().imageUrl"
+    [alt]="show().title + ' poster'"
+    class="show-image"
+    width="300"
+    height="450"
+  />
+
+  <mat-card-header>
+    <mat-card-title>{{ show().title }}</mat-card-title>
+    @if (show().year) {
+    <mat-card-subtitle class="year">{{ show().year }}</mat-card-subtitle>
+    } @if (show().rating !== undefined) {
+    <div class="rating" aria-label="Show rating">
+      <mat-icon aria-hidden="true">star</mat-icon>
+      <span>{{ show().rating }}</span>
+    </div>
+    }
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (show().genres && show().genres.length > 0) {
+    <div class="genres" role="list" aria-label="Show genres">
+      @for (genre of show().genres; track genre) {
+      <mat-chip role="listitem">{{ genre }}</mat-chip>
+      }
+    </div>
+    } @if (show().description) {
+    <p class="description">{{ show().description }}</p>
+    }
+  </mat-card-content>
+</mat-card>
