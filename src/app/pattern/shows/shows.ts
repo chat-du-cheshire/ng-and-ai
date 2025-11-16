@@ -11,11 +11,11 @@ import { ShowDetails } from '../../ui/shows/show-details/show-details';
 import { ShowsLoader } from '../../core/shows-loader';
 
 @Component({
-  selector: 'sp-shows',
+  selector: 'app-shows',
   template: `
     <div class="shows-container">
       @for (show of shows(); track show.id) {
-        <sp-show-details [show]="show" />
+        <app-show-details [show]="show" />
       }
     </div>
   `,

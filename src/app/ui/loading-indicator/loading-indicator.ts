@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  selector: 'sp-loading-indicator',
+  selector: 'app-loading-indicator',
   standalone: true,
   template: `
     <div class="wrap" aria-label="Loading..." role="status" aria-live="polite">
