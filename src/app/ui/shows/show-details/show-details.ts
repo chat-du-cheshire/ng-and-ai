@@ -12,7 +12,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ShowModel } from '../../../core/show-model';
 
 @Component({
-  selector: 'sp-show-details',
+  selector: 'app-show-details',
   templateUrl: './show-details.html',
   styleUrls: ['./show-details.scss'],
   imports: [

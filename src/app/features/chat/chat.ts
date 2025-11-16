@@ -21,6 +21,7 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { ShowsLoader } from '../../core/shows-loader';
 import { Shows } from '../../pattern/shows/shows';
 import { s } from '@hashbrownai/core';
+import { LoadingIndicator } from '../../ui/loading-indicator/loading-indicator';
 
 @Component({
   selector: 'app-chat',
@@ -34,6 +35,7 @@ import { s } from '@hashbrownai/core';
     MatCard,
     MatCardContent,
     RenderMessageComponent,
+    LoadingIndicator,
   ],
   template: `
     <div class="chat-container">
@@ -60,33 +62,38 @@ import { s } from '@hashbrownai/core';
 
       <div class="chat-messages">
         @for (message of chat.value(); track $index) {
-          @switch (message.role) {
-            @case ('user') {
-              <mat-card class="message user">
-                <mat-card-content>
-                  <p>{{ message.content }}</p>
-                </mat-card-content>
-              </mat-card>
-            }
-            @case ('assistant') {
-              @if (message.content) {
-                <div class="assistant-message-container">
-                  <div class="assistant-avatar">
-                    <mat-icon
-                      aria-hidden="false"
-                      aria-label="Assistant avatar"
-                      fontIcon="face_2"
-                    ></mat-icon>
+          @if (message.content) {
+            @switch (message.role) {
+              @case ('user') {
+                <mat-card class="message user">
+                  <mat-card-content>
+                    <p>{{ message.content }}</p>
+                  </mat-card-content>
+                </mat-card>
+              }
+              @case ('assistant') {
+                @if (message.content) {
+                  <div class="assistant-message-container">
+                    <div class="assistant-avatar">
+                      <mat-icon
+                        aria-hidden="false"
+                        aria-label="Assistant avatar"
+                        fontIcon="face_2"
+                      ></mat-icon>
+                    </div>
+                    <mat-card class="message assistant">
+                      <mat-card-content>
+                        <hb-render-message [message]="message" />
+                      </mat-card-content>
+                    </mat-card>
                   </div>
-                  <mat-card class="message assistant">
-                    <mat-card-content>
-                      <hb-render-message [message]="message" />
-                    </mat-card-content>
-                  </mat-card>
-                </div>
+                }
               }
             }
           }
+        }
+        @if (chat.isLoading()) {
+          <app-loading-indicator />
         }
       </div>
     </div>
