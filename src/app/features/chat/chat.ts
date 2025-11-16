@@ -9,10 +9,18 @@ import { MatIcon } from '@angular/material/icon';
 import { MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatFabButton } from '@angular/material/button';
-import { chatResource, createTool } from '@hashbrownai/angular';
+import {
+  chatResource,
+  createTool,
+  exposeComponent,
+  RenderMessageComponent,
+  uiChatResource,
+} from '@hashbrownai/angular';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { ShowsLoader } from '../../core/shows-loader';
+import { Shows } from '../../pattern/shows/shows';
+import { s } from '@hashbrownai/core';
 
 @Component({
   selector: 'app-chat',
@@ -25,6 +33,7 @@ import { ShowsLoader } from '../../core/shows-loader';
     MatLabel,
     MatCard,
     MatCardContent,
+    RenderMessageComponent,
   ],
   template: `
     <div class="chat-container">
@@ -60,20 +69,22 @@ import { ShowsLoader } from '../../core/shows-loader';
               </mat-card>
             }
             @case ('assistant') {
-              <div class="assistant-message-container">
-                <div class="assistant-avatar">
-                  <mat-icon
-                    aria-hidden="false"
-                    aria-label="Assistant avatar"
-                    fontIcon="face_2"
-                  ></mat-icon>
+              @if (message.content) {
+                <div class="assistant-message-container">
+                  <div class="assistant-avatar">
+                    <mat-icon
+                      aria-hidden="false"
+                      aria-label="Assistant avatar"
+                      fontIcon="face_2"
+                    ></mat-icon>
+                  </div>
+                  <mat-card class="message assistant">
+                    <mat-card-content>
+                      <hb-render-message [message]="message" />
+                    </mat-card-content>
+                  </mat-card>
                 </div>
-                <mat-card class="message assistant">
-                  <mat-card-content>
-                    <p>{{ message.content }}</p>
-                  </mat-card-content>
-                </mat-card>
-              </div>
+              }
             }
           }
         }
@@ -86,7 +97,7 @@ import { ShowsLoader } from '../../core/shows-loader';
 export class Chat {
   #showsLoader = inject(ShowsLoader);
 
-  chat = chatResource({
+  chat = uiChatResource({
     model: 'gpt-4o',
     debugName: 'chat',
     system: `You are a friendly sarcastic chat bot`,
@@ -100,10 +111,15 @@ export class Chat {
         },
       }),
     ],
-  });
-
-  #effectRef = effect(() => {
-    console.log(this.chat.value());
+    components: [
+      exposeComponent(Shows, {
+        description:
+          'Render a component when the user asks to view one or more TV shows (e.g., "show X", "list shows", "details for show 123"). Never use for general questions.',
+        input: {
+          showIds: s.array('Array of show ids', s.string('Id of a show')),
+        },
+      }),
+    ],
   });
 
   sendMessage(message: string) {
