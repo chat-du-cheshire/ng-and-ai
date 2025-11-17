@@ -22,6 +22,7 @@ import { ShowsLoader } from '../../core/shows-loader';
 import { Shows } from '../../pattern/shows/shows';
 import { s } from '@hashbrownai/core';
 import { LoadingIndicator } from '../../ui/loading-indicator/loading-indicator';
+import { ThemeSwitch } from '../../pattern/theme-switch/theme-switch';
 
 @Component({
   selector: 'app-chat',
@@ -125,6 +126,10 @@ export class Chat {
         input: {
           showIds: s.array('Array of show ids', s.string('Id of a show')),
         },
+      }),
+      exposeComponent(ThemeSwitch, {
+        description:
+          'Render a theme switcher component when the user wants to change the theme.',
       }),
     ],
   });
