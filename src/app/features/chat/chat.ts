@@ -22,7 +22,8 @@ import { ShowsLoader } from '../../core/shows-loader';
 import { Shows } from '../../pattern/shows/shows';
 import { s } from '@hashbrownai/core';
 import { LoadingIndicator } from '../../ui/loading-indicator/loading-indicator';
-import { ThemeSwitch } from '../../pattern/theme-switch/theme-switch';
+import { ThemeSwitch } from '../../ui/theme-switch/theme-switch';
+import { Markdown } from '../../ui/markdown/markdown';
 
 @Component({
   selector: 'app-chat',
@@ -108,7 +109,7 @@ export class Chat {
   chat = uiChatResource({
     model: 'gpt-4o',
     debugName: 'chat',
-    system: `You are a friendly sarcastic chat bot`,
+    system: `You are a friendly sarcastic chat bot. Reply in markdown for every general question.`,
     tools: [
       createTool({
         name: 'getShows',
@@ -130,6 +131,12 @@ export class Chat {
       exposeComponent(ThemeSwitch, {
         description:
           'Render a theme switcher component when the user wants to change the theme.',
+      }),
+      exposeComponent(Markdown, {
+        description: 'Render a markdown component to show rich text content.',
+        input: {
+          data: s.string('The markdown content to render'),
+        },
       }),
     ],
   });
