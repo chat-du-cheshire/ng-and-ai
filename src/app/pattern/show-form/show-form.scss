@@ -1,0 +1,97 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.half-width {
+  width: 48%;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+
+mat-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  border-radius: 20px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--mat-sys-outline-variant);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02),
+    transparent
+  );
+  overflow: hidden;
+  padding: 16px;
+}
+
+mat-card-header {
+  margin-bottom: 24px;
+  padding: 0 0 12px 4px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+mat-card-title {
+  color: var(--mat-sys-on-surface);
+  font-weight: 500;
+}
+
+h3 {
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+  letter-spacing: 0.01em;
+}
+
+.ghost-input {
+  position: relative;
+  width: 100%;
+  font-size: 0.9rem;
+  color: var(--mat-sys-on-surface);
+  cursor: text;
+  display: block;
+  height: 24px; /* Set a fixed height to ensure proper alignment */
+}
+
+.current-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.completion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--mat-sys-outline-variant);
+  pointer-events: none;
+}
+
+.hidden-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  font-size: 0.9rem;
+  color: transparent;
+  caret-color: var(--mat-sys-on-surface);
+  z-index: 2;
+  outline: none;
+}

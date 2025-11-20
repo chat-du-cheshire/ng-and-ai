@@ -9,7 +9,7 @@ import {
 import { MatChip } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 
-import { ShowModel } from '../../../core/show-model';
+import { ShowModel } from '../../../shared/show-model';
 
 @Component({
   selector: 'app-show-details',

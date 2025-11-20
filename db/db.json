@@ -86,6 +86,18 @@
         "Adventure"
       ],
       "imageUrl": "https://image.tmdb.org/t/p/original/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg"
+    },
+    {
+      "id": "5ad0",
+      "title": "The Expanse",
+      "description": "The disappearance of rich-girl-turned-political-activist links the lives of Ceres detective, accidental ship captain and U.N. politician. Amidst political tension between Earth, Mars and the Belt, they unravel the greatest conspiracy.",
+      "rating": 8,
+      "year": 2015,
+      "genres": [
+        "SciFi",
+        "Drama"
+      ],
+      "imageUrl": "https://m.media-amazon.com/images/M/MV5BYzUyYmI3MjctY2Q2MC00NmFjLTgwZGUtNWQzZWNlYmVjNzE2XkEyXkFqcGc@._V1_FMjpg_UX404_.jpg"
     }
   ]
 }
