@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  ElementRef,
   inject,
   model,
+  viewChildren,
 } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -45,26 +47,28 @@ import { FormsModule, NgModel } from '@angular/forms';
   ],
   template: `
     <div class="chat-container">
-      <div class="chat-input">
-        <mat-form-field>
-          <mat-label>How can I help you?</mat-label>
-          <input
-            #inputField
-            matInput
-            [(ngModel)]="chatModel"
-            (keydown.enter)="sendMessage()"
-          />
-        </mat-form-field>
+      <div class="chat-input-wrapper">
+        <div class="chat-input">
+          <mat-form-field>
+            <mat-label>How can I help you?</mat-label>
+            <input
+              #inputField
+              matInput
+              [(ngModel)]="chatModel"
+              (keydown.enter)="sendMessage()"
+            />
+          </mat-form-field>
 
-        <button
-          matFab
-          color="primary"
-          class="send-button"
-          aria-label="Send message"
-          (click)="sendMessage()"
-        >
-          <mat-icon>send</mat-icon>
-        </button>
+          <button
+            matFab
+            color="primary"
+            class="send-button"
+            aria-label="Send message"
+            (click)="sendMessage()"
+          >
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
       </div>
 
       <div class="chat-messages">
@@ -72,7 +76,7 @@ import { FormsModule, NgModel } from '@angular/forms';
           @if (message.content) {
             @switch (message.role) {
               @case ('user') {
-                <mat-card class="message user">
+                <mat-card #userMessage class="message user">
                   <mat-card-content>
                     <p>{{ message.content }}</p>
                   </mat-card-content>
@@ -111,6 +115,8 @@ import { FormsModule, NgModel } from '@angular/forms';
 export class Chat {
   #showsLoader = inject(ShowsLoader);
   chatModel = model('');
+
+  userMessageEls = viewChildren('userMessage', { read: ElementRef });
 
   chat = uiChatResource({
     model: 'gpt-4o',
@@ -157,4 +163,15 @@ export class Chat {
     });
     this.chatModel.set('');
   }
+
+  #scrollToUserMessage = effect(() => {
+    const el = this.userMessageEls()?.at(-1)?.nativeElement;
+    this.chat.isLoading();
+
+    if (!el) {
+      return;
+    }
+
+    el.scrollIntoView({ behavior: 'smooth' });
+  });
 }
