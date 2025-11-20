@@ -3,6 +3,7 @@ import {
   Component,
   effect,
   inject,
+  model,
 } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -25,6 +26,7 @@ import { LoadingIndicator } from '../../ui/loading-indicator/loading-indicator';
 import { ThemeSwitch } from '../../ui/theme-switch/theme-switch';
 import { Markdown } from '../../ui/markdown/markdown';
 import { ShowForm } from '../../pattern/show-form/show-form';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',
@@ -39,6 +41,7 @@ import { ShowForm } from '../../pattern/show-form/show-form';
     MatCardContent,
     RenderMessageComponent,
     LoadingIndicator,
+    FormsModule,
   ],
   template: `
     <div class="chat-container">
@@ -48,7 +51,8 @@ import { ShowForm } from '../../pattern/show-form/show-form';
           <input
             #inputField
             matInput
-            (keydown.enter)="sendMessage(inputField.value)"
+            [(ngModel)]="chatModel"
+            (keydown.enter)="sendMessage()"
           />
         </mat-form-field>
 
@@ -57,7 +61,7 @@ import { ShowForm } from '../../pattern/show-form/show-form';
           color="primary"
           class="send-button"
           aria-label="Send message"
-          (click)="sendMessage(inputField.value)"
+          (click)="sendMessage()"
         >
           <mat-icon>send</mat-icon>
         </button>
@@ -106,6 +110,7 @@ import { ShowForm } from '../../pattern/show-form/show-form';
 })
 export class Chat {
   #showsLoader = inject(ShowsLoader);
+  chatModel = model('');
 
   chat = uiChatResource({
     model: 'gpt-4o',
@@ -145,10 +150,11 @@ export class Chat {
     ],
   });
 
-  sendMessage(message: string) {
+  sendMessage() {
     this.chat.sendMessage({
       role: 'user',
-      content: message.trim(),
+      content: this.chatModel().trim(),
     });
+    this.chatModel.set('');
   }
 }
