@@ -1,0 +1,155 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Add a new Show</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="showForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Show Title</mat-label>
+
+        <div class="ghost-input" (keydown.tab)="completeHint()">
+          <span class="current-input">{{ showForm.controls.title.value }}</span>
+          <span class="completion">{{ showNameCompletion.value() }}</span>
+
+          <input
+            matInput
+            [formControl]="showForm.controls.title"
+            placeholder="Enter a show title"
+          />
+        </div>
+
+        @if (showForm.controls.title.hasError('required') &&
+        showForm.controls.title.touched) {
+        <mat-error>Title is required</mat-error>
+        }
+      </mat-form-field>
+
+      @if (showCompletion.isLoading()) {
+      <div class="spinner-container">
+        <mat-progress-spinner diameter="32" color="primary" />
+        Prefilling your form...
+      </div>
+      }
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          formControlName="description"
+          placeholder="Enter movie description"
+          rows="3"
+        ></textarea>
+        @if ( showForm.controls.description.hasError('required') &&
+        showForm.controls.description.touched ) {
+        <mat-error>Description is required</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Year</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="year"
+            placeholder="Enter release year"
+          />
+          @if (showForm.controls.year.hasError('required') &&
+          showForm.controls.year.touched) {
+          <mat-error>Year is required</mat-error>
+          } @if (showForm.controls.year.hasError('min') &&
+          showForm.controls.year.touched) {
+          <mat-error>Year must be after 1900</mat-error>
+          } @if (showForm.controls.year.hasError('max') &&
+          showForm.controls.year.touched) {
+          <mat-error>Year cannot be in the future</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Rating (0-10)</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="rating"
+            placeholder="Enter rating"
+            min="0"
+            max="10"
+            step="0.1"
+          />
+          @if (showForm.controls.rating.hasError('required') &&
+          showForm.controls.rating.touched) {
+          <mat-error>Rating is required</mat-error>
+          } @if ( (showForm.controls.rating.hasError('min') ||
+          showForm.controls.rating.hasError('max')) &&
+          showForm.controls.rating.touched ) {
+          <mat-error>Rating must be between 0 and 10</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Image URL</mat-label>
+        <input
+          matInput
+          formControlName="imageUrl"
+          placeholder="Enter image URL"
+        />
+        @if ( showForm.controls.imageUrl.hasError('required') &&
+        showForm.controls.imageUrl.touched ) {
+        <mat-error>Image URL is required</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="genres-section">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Genres</mat-label>
+          <mat-chip-grid
+            #chipGrid
+            aria-label="Enter genres"
+            [formControl]="showForm.controls.genres"
+          >
+            @for (genre of genreValueChange(); track genre) {
+            <mat-chip-row
+              (removed)="remove(genre)"
+              [aria-description]="'press enter to edit ' + genre"
+            >
+              {{ genre }}
+              <button matChipRemove [attr.aria-label]="'remove ' + genre">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            }
+            <input
+              placeholder="New genre..."
+              [matChipInputFor]="chipGrid"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="add($event)"
+            />
+          </mat-chip-grid>
+          @if (!showForm.controls.genres.valid &&
+          showForm.controls.genres.touched) {
+          <mat-error>At least one genre is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" mat-stroked-button (click)="resetForm()">
+          Reset
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          (click)="submit()"
+          color="primary"
+          [disabled]="showForm.invalid"
+        >
+          Add Movie
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

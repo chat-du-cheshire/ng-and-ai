@@ -24,6 +24,7 @@ import { s } from '@hashbrownai/core';
 import { LoadingIndicator } from '../../ui/loading-indicator/loading-indicator';
 import { ThemeSwitch } from '../../ui/theme-switch/theme-switch';
 import { Markdown } from '../../ui/markdown/markdown';
+import { ShowForm } from '../../pattern/show-form/show-form';
 
 @Component({
   selector: 'app-chat',
@@ -127,6 +128,9 @@ export class Chat {
         input: {
           showIds: s.array('Array of show ids', s.string('Id of a show')),
         },
+      }),
+      exposeComponent(ShowForm, {
+        description: 'Render a form to add a new TV show.',
       }),
       exposeComponent(ThemeSwitch, {
         description:
